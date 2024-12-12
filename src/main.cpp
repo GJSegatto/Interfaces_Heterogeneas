@@ -86,7 +86,7 @@ void loop()
     if(!bleConfigured) {
       mesh.stop();
       
-      BLEDevice::init("ESP32-PC");
+      BLEDevice::init("ESP32-XXX");
       BLEServer *pServer = BLEDevice::createServer();
       BLEService *pService = pServer->createService(BLEUUID(SERVICE_UUID));
       BLECharacteristic *pCharacteristic = pService->createCharacteristic(
