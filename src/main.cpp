@@ -75,6 +75,7 @@ void setup()
   //INICIALIZAÇÃO DA MESH
   setupMesh();
 
+  //LED VERMELHO
   pinMode(PIN, OUTPUT);
   digitalWrite(PIN, HIGH);
   neopixelWrite(PIN,100,0,0);
@@ -85,7 +86,6 @@ void loop()
   if(bleActive) {
     if(!bleConfigured) {
       mesh.stop();
-      
       BLEDevice::init("ESP32-XXX");
       BLEServer *pServer = BLEDevice::createServer();
       BLEService *pService = pServer->createService(BLEUUID(SERVICE_UUID));
