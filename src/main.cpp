@@ -56,11 +56,15 @@ void receivedMsg(uint32_t from, String &msg) {
   bleToSendData = msg;
 }
 
-void setupMesh() {
+void clearWifi() {
   esp_wifi_stop();
   delay(100);
   esp_wifi_start();
   delay(100);
+}
+
+void setupMesh() {
+  clearWifi();
   //mesh.setDebugMsgTypes(ERROR | COMMUNICATION | STARTUP | CONNECTION);
   //mesh.setDebugMsgTypes(COMMUNICATION);
   mesh.init(MESH_PREFIX, MESH_PASSWORD, &myScheduler, MESH_PORT, WIFI_AP_STA);
@@ -86,7 +90,7 @@ void loop()
   if(bleActive) {
     if(!bleConfigured) {
       mesh.stop();
-      BLEDevice::init("ESP32-XXX");
+      BLEDevice::init("ESP32-LED");
       BLEServer *pServer = BLEDevice::createServer();
       BLEService *pService = pServer->createService(BLEUUID(SERVICE_UUID));
       BLECharacteristic *pCharacteristic = pService->createCharacteristic(
@@ -112,6 +116,7 @@ void loop()
       BLEDevice::deinit(false);
       bleActive = false;
       bleConfigured = false;
+      clearWifi();
       setupMesh();
       lastSwitchTime = millis();
     }
